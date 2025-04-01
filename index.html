@@ -29,6 +29,9 @@
         スタンプラリーカード
       </h1>
       <h3>個人情報の取り扱いについて
+        <h4 class="information">LINE認証にて得た情報<br>(ユーザーID・表示名・プロフィール画像・ステータスメッセージ)<br>のうち本イベントでは、<br>ユーザーIDのみを使用いたします。<br>
+        ユーザーIDはイベントのログインをするために使用いたします。<br></h4>
+        
         <h4 class="information">アンケートにてご提供いただいた個人情報は、<br>本イベント及び、景品当選時にのみ使用します。<br>第三者に提供されることはありません。</h4></h3>
       <form
       id="userForm"
@@ -38,21 +41,21 @@
 
     >
       <span class="p-country-name" style="display: none">Japan</span>
-      <h2>①イベントで使用する参加名を入力してください</h2>
+      <h3 class="question">①イベントで使用する参加名(ニックネーム)を入力してください</h3>
 
       <input type="text" name="name" id="name" />
 
-      <h3>
+      <h4>
         本名でなくて大丈夫です👌<br />
         お好きな名前でご参加ください！!
-      </h3>
+      </h4>
 
-      <h2>②性別を教えてください</h2>
+      <h3 class="question">②性別を教えてください</h3>
       <label><input type="radio" name="sex" value="men" />男性</label>
       <label><input type="radio" name="sex" value="women" />女性</label>
       <label><input type="radio" name="sex" value="other" />その他</label>
 
-      <h2>③年齢を教えてください</h2>
+      <h3 class="question">③年齢を教えてください</h3>
       <label><input type="radio" name="age" value="0~19" />〜19歳</label>
       <label><input type="radio" name="age" value="20~29" />20歳代</label>
       <label><input type="radio" name="age" value="30~39" />30歳代</label>
@@ -60,7 +63,7 @@
       <label><input type="radio" name="age" value="50~59" />50歳代</label>
       <label><input type="radio" name="age" value="60~" />60歳〜</label>
 
-      <h2>④職業を教えてください</h2>
+      <h3 class="question">④職業を教えてください</h3>
       <label><input type="radio" name="occupation" value="1" />小学生 </label>
       <label><input type="radio" name="occupation" value="2" />中学生 </label>
       <label><input type="radio" name="occupation" value="3" />高校生 </label>
@@ -101,7 +104,7 @@
       <input type="hidden" name="ageList" id="ageList" />
       <input type="hidden" name="occupationList" id="occupationList" />
       
-      <h2>⑤住所を入力してください</h2>
+      <h3 class="question">⑤住所を入力してください</h3>
       〒<input
         type="text"
         name="address-1"
@@ -138,7 +141,8 @@
         class="p-street-address p-extended-address"
       /><br />
       番地:<input type="text" name="address-6" id="address-6" />
-      <h2>⑥日中繋がる連絡先を入力してください</h2>
+      <h3 class="question">⑥日中繋がる連絡先を入力してください</h3>
+      <h4>ハイフンなしで数値のみで入力してください。</h4>
       <input type="text" name="phoneNumber" id="phoneNumber" /><br>
       <button type="submit" value>ログインされていません</button>
     </form>
@@ -192,47 +196,11 @@
         >
       </li>
   </nav>
-  <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
-<script>
-  liff
-    .init({
-      liffId: "2007154146-Y5jGo0G3", // あなたのLIFF ID
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  liff.ready.then(() => {
-    if (!liff.isLoggedIn()) {
-      liff.login();
-    }
-
-    // ユーザープロフィール情報を取得
-    liff
-      .getProfile()
-      .then((profile) => {
-        const userId = profile.userId; // ユーザーIDを取得
-
-        // ユーザーIDを非表示のinputフィールドとしてフォームに追加
-        const userIdField = document.createElement("input");
-        userIdField.type = "hidden"; // 見えないフィールドとして設定
-        userIdField.name = "userId"; // サーバー側で受け取る名前を指定
-        userIdField.value = userId; // ユーザーIDの値をセット
-
-        // フォームにuserIdフィールドを追加
-        document.getElementById("userForm").appendChild(userIdField);
-
-        // 必要に応じてボタンのテキストを変更する
-        const submitButton = document.querySelector("button");
-        submitButton.textContent = "ユーザー登録";
-      })
-      .catch((err) => {
-        console.log("プロフィール取得エラー: ", err);
-      });
-  });
-</script>
+ 
 <style>
-
+      .question {
+        border-bottom-style: double;
+      }
 
       .menu {
         position: fixed;
@@ -293,10 +261,12 @@
       input {
         font-size: 200%;
         background: skyblue;
+        display: inline-block;
       }
 
       button {
         font-size: 200%;
+        display: inline-block;
       }
       .information{
         border-style: dotted;
