@@ -28,11 +28,7 @@
         クールシェア宝塚2025<br />
         スタンプラリーカード
       </h1>
-      <h3>個人情報の取り扱いについて
-        <h4 class="information">LINE認証にて得た情報<br>(ユーザーID・表示名・プロフィール画像・ステータスメッセージ)<br>のうち本イベントでは、<br>ユーザーIDのみを使用いたします。<br>
-        ユーザーIDはイベントのログインをするために使用いたします。<br></h4>
-        
-        <h4 class="information">アンケートにてご提供いただいた個人情報は、<br>本イベント及び、景品当選時にのみ使用します。<br>第三者に提供されることはありません。</h4></h3>
+
       <form
       id="userForm"
       action="https://script.google.com/macros/s/AKfycbz7tQTqCiiau4aD4asjUXF33i76AerzeRjGItg238-Mlz1LWSVPgfLROS4E6FXOlGbGZA/exec"
@@ -196,7 +192,46 @@
         >
       </li>
   </nav>
- 
+ <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
+<script>
+  liff
+    .init({
+      liffId: "2007154146-Y5jGo0G3", // あなたのLIFF ID
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  liff.ready.then(() => {
+    if (!liff.isLoggedIn()) {
+      liff.login();
+    }
+
+    // ユーザープロフィール情報を取得
+    liff
+      .getProfile()
+      .then((profile) => {
+        const userId = profile.userId; // ユーザーIDを取得
+
+        // ユーザーIDを非表示のinputフィールドとしてフォームに追加
+        const userIdField = document.createElement("input");
+        userIdField.type = "hidden"; // 見えないフィールドとして設定
+        userIdField.name = "userId"; // サーバー側で受け取る名前を指定
+        userIdField.value = userId; // ユーザーIDの値をセット
+
+        // フォームにuserIdフィールドを追加
+        document.getElementById("userForm").appendChild(userIdField);
+
+        // 必要に応じてボタンのテキストを変更する
+        const submitButton = document.querySelector("button");
+        submitButton.textContent = "ユーザー登録";
+      })
+      .catch((err) => {
+        console.log("プロフィール取得エラー: ", err);
+      });
+  });
+</script>
+
 <style>
       .question {
         border-bottom-style: double;
